@@ -6,7 +6,9 @@ import ru.javawebinar.topjava.model.MealTo;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.repository.MealRepositoryMemoryImpl;
 import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.util.TimeUtil;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,49 +24,62 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class MealServlet extends HttpServlet {
     private static final Logger log = getLogger(MealServlet.class);
 
-    private MealRepository repository = new MealRepositoryMemoryImpl();
+    private MealRepository repository;
 
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        repository = new MealRepositoryMemoryImpl();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         log.debug("GET request");
-        String action = request.getParameter("action");
+        String action = (request.getParameter("action"));
 
         if (action == null) {
-            action = "getAll";
+            action = "getall";
+        } else {
+            action = action.toLowerCase();
         }
 
-        if (action.equalsIgnoreCase("delete")) {
-            long mealId = Long.parseLong(request.getParameter("id"));
-            repository.deleteMealById(mealId);
-            response.sendRedirect("meals");
+        switch (action) {
+            case "delete": {
+                long mealId = Long.parseLong(request.getParameter("id"));
+                repository.delete(mealId);
+                response.sendRedirect("meals");
 
-        } else if (action.equalsIgnoreCase("get")) {
-            long mealId = Long.parseLong(request.getParameter("id"));
-            repository.getMealById(mealId);
-            response.sendRedirect("meals");
+                break;
+            }
+            case "create": {
+                Meal meal = new Meal(-1L, LocalDateTime.now(), "default", 0);
 
-        } else if (action.equalsIgnoreCase("getAll")) {
-            List<MealTo> meals = MealsUtil.getMealToList(repository.getAllMeals());
-            request.setAttribute("meals", meals);
-            request.getRequestDispatcher("/meals.jsp").forward(request, response);
+                request.setAttribute("meal", meal);
+                request.setAttribute("formatter", TimeUtil.getDateTimeFormatter());
+                request.getRequestDispatcher("/update.jsp").forward(request, response);
 
-        } else if (action.equalsIgnoreCase("create")) {
-            Meal meal = new Meal(LocalDateTime.now(), "default", 0);
+                break;
+            }
+            case "update": {
+                long id = Long.parseLong(Objects.requireNonNull(request.getParameter("id")));
 
-            repository.saveMeal(meal);
-            request.setAttribute("meal", meal);
-            request.getRequestDispatcher("/update.jsp").forward(request, response);
+                Meal meal = repository.getById(id);
 
-        } else if (action.equalsIgnoreCase("update")) {
-            long id = Long.parseLong(Objects.requireNonNull(request.getParameter("id")));
+                request.setAttribute("meal", meal);
+                request.setAttribute("formatter", TimeUtil.getDateTimeFormatter());
+                request.getRequestDispatcher("/update.jsp").forward(request, response);
 
-            Meal meal = repository.getMealById(id);
+                break;
+            }
+            case "getall":
+            default:
+                List<MealTo> meals = MealsUtil.getMealToList(repository.getAll());
+                request.setAttribute("meals", meals);
+                request.setAttribute("formatter", TimeUtil.getDateTimeFormatter());
+                request.getRequestDispatcher("/meals.jsp").forward(request, response);
 
-            request.setAttribute("meal", meal);
-            request.getRequestDispatcher("/update.jsp").forward(request, response);
-
+                break;
         }
     }
 
@@ -74,14 +89,14 @@ public class MealServlet extends HttpServlet {
         log.debug("POST request");
         request.setCharacterEncoding("UTF-8");
 
-        long id = Long.parseLong(request.getParameter("id"));
+        long id = Long.parseLong(Objects.requireNonNull(request.getParameter("id")));
         LocalDateTime dateTime = LocalDateTime.parse(request.getParameter("dateTime"));
         String description = request.getParameter("description");
         int calories = Integer.parseInt(request.getParameter("calories"));
 
         Meal newMeal = new Meal(id, dateTime, description, calories);
 
-        repository.saveMeal(newMeal);
+        repository.save(newMeal);
 
         response.sendRedirect("meals");
     }

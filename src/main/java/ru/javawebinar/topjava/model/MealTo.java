@@ -22,11 +22,7 @@ public class MealTo {
     }
 
     public MealTo(LocalDateTime dateTime, String description, int calories, boolean excess) {
-        this.id = null;
-        this.dateTime = dateTime;
-        this.description = description;
-        this.calories = calories;
-        this.excess = excess;
+        this(null, dateTime, description, calories, excess);
     }
 
     public Long getId() {

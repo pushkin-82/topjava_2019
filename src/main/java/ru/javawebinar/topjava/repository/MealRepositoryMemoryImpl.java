@@ -14,30 +14,32 @@ public class MealRepositoryMemoryImpl implements MealRepository {
     private static AtomicLong counter = new AtomicLong();
 
     {
-        MealsUtil.meals.forEach(this::saveMeal);
+        MealsUtil.meals.forEach(this::save);
     }
 
 
     @Override
-    public List<Meal> getAllMeals() {
+    public List<Meal> getAll() {
         return new ArrayList<>(mealMap.values());
     }
 
     @Override
-    public Meal getMealById(long id) {
+    public Meal getById(long id) {
         return mealMap.get(id);
     }
 
     @Override
-    public void saveMeal(Meal meal) {
-        if (meal.getId() == null) {
+    public Meal save(Meal meal) {
+        if (meal.getId() == null || !mealMap.containsKey(meal.getId())) {
             meal.setId(counter.incrementAndGet());
         }
         mealMap.put(meal.getId(), meal);
+
+        return meal;
     }
 
     @Override
-    public void deleteMealById(long id) {
+    public void delete(long id) {
         mealMap.remove(id);
     }
 }
