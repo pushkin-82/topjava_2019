@@ -30,7 +30,7 @@ public class MealRepositoryMemory implements MealRepository {
 
     @Override
     public Meal save(Meal meal) {
-        if (meal.getId() == null || !mealMap.containsKey(meal.getId())) {
+        if (!mealMap.containsKey(meal.getId())) {
             meal.setId(counter.incrementAndGet());
         }
         mealMap.put(meal.getId(), meal);
