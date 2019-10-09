@@ -9,9 +9,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class MealRepositoryMemoryImpl implements MealRepository {
+public class MealRepositoryMemory implements MealRepository {
     private Map<Long, Meal> mealMap = new ConcurrentHashMap<>();
-    private static AtomicLong counter = new AtomicLong();
+    private AtomicLong counter = new AtomicLong();
 
     {
         MealsUtil.meals.forEach(this::save);

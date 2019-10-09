@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealTo;
 import ru.javawebinar.topjava.repository.MealRepository;
-import ru.javawebinar.topjava.repository.MealRepositoryMemoryImpl;
+import ru.javawebinar.topjava.repository.MealRepositoryMemory;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.TimeUtil;
 
@@ -29,7 +29,7 @@ public class MealServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        repository = new MealRepositoryMemoryImpl();
+        repository = new MealRepositoryMemory();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class MealServlet extends HttpServlet {
                 break;
             }
             case "create": {
-                Meal meal = new Meal(-1L, LocalDateTime.now(), "default", 0);
+                Meal meal = new Meal(LocalDateTime.now(), "default", 0);
 
                 request.setAttribute("meal", meal);
                 request.setAttribute("formatter", TimeUtil.getDateTimeFormatter());
