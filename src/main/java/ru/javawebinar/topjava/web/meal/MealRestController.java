@@ -15,7 +15,8 @@ import java.util.List;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
-import static ru.javawebinar.topjava.web.SecurityUtil.authUserId;
+import static ru.javawebinar.topjava.web.SecurityUtil.getAuthUserId;
+import static ru.javawebinar.topjava.web.SecurityUtil.authUserCaloriesPerDay;
 
 @Controller
 public class MealRestController {
@@ -26,7 +27,7 @@ public class MealRestController {
 
     public List<MealTo> getAll() {
         log.info("getAll");
-        return MealsUtil.getTos(service.getAll(authUserId()), MealsUtil.DEFAULT_CALORIES_PER_DAY);
+        return MealsUtil.getTos(service.getAll(getAuthUserId()), authUserCaloriesPerDay());
     }
 
     public List<MealTo> getAll(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
@@ -37,30 +38,30 @@ public class MealRestController {
         LocalTime startLT = startTime == null ? LocalTime.MIN : startTime;
         LocalTime endLT = endTime == null ? LocalTime.MAX : endTime;
 
-        return MealsUtil.getFilteredTos(service.getAll(authUserId(), startLD, endLD),
-                MealsUtil.DEFAULT_CALORIES_PER_DAY, startLT, endLT);
+        return MealsUtil.getFilteredTos(service.getAllFiltered(getAuthUserId(), startLD, endLD),
+                authUserCaloriesPerDay(), startLT, endLT);
     }
 
     public Meal get(int id) {
         log.info("get {}", id);
-        return service.get(authUserId(), id);
+        return service.get(getAuthUserId(), id);
     }
 
     public void delete(int id) {
         log.info("delete {}", id);
-        service.delete(authUserId(), id);
+        service.delete(getAuthUserId(), id);
     }
 
     public Meal create(Meal meal) {
         log.info("create {}", meal);
         checkNew(meal);
-        return service.create(authUserId(), meal);
+        return service.create(getAuthUserId(), meal);
     }
 
     public void update(Meal meal, int id) {
         log.info("update {} with id={}", meal, id);
         assureIdConsistent(meal, id);
-        service.update(authUserId(), meal);
+        service.update(getAuthUserId(), meal);
     }
 
 }

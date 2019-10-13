@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-import static ru.javawebinar.topjava.web.SecurityUtil.authUserId;
-
 public class Meal extends AbstractBaseEntity {
     private final Integer userId;
 
@@ -17,7 +15,11 @@ public class Meal extends AbstractBaseEntity {
 
 
     public Meal(LocalDateTime dateTime, String description, int calories) {
-        this(null, authUserId(), dateTime, description, calories);
+        this(null, null, dateTime, description, calories);
+    }
+
+    public Meal(Integer userId, LocalDateTime dateTime, String description, int calories) {
+        this(null, userId, dateTime, description, calories);
     }
 
     public Meal(Integer id, Integer userId, LocalDateTime dateTime, String description, int calories) {

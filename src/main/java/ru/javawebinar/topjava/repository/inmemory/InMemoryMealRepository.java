@@ -7,16 +7,20 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 
 @Repository
 public class InMemoryMealRepository implements MealRepository {
-    private static final Logger log = LoggerFactory.getLogger(InMemoryUserRepository.class);
+    private static final Logger log = LoggerFactory.getLogger(InMemoryMealRepository.class);
 
     private Map<Integer, Meal> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
@@ -36,39 +40,60 @@ public class InMemoryMealRepository implements MealRepository {
         }
         // treat case: update, but not present in storage
 
-        return meal.getUserId() ==  userId ? repository.computeIfPresent(meal.getId(), (id, oldMeal) -> meal) : null;
+        if (meal.getUserId() != userId) {
+            throw new IllegalArgumentException("Wrong user id!");
+        }
+
+        return repository.computeIfPresent(meal.getId(), (id, oldMeal) -> meal);
     }
 
     @Override
     public boolean delete(int userId, int id) {
         log.info("delete {} for {}", id, userId);
 
-        return repository.get(id).getUserId() == userId && repository.remove(id) != null;
+        Meal meal = checkNotFoundWithId(repository.get(id), id);
+
+        if (meal.getUserId() != userId) {
+            throw new IllegalArgumentException("Wrong user id!");
+        }
+
+        return repository.remove(id, meal);
     }
 
     @Override
     public Meal get(int userId, int id) {
         log.info("get {} for {}", id, userId);
 
-        return repository.get(id).getUserId() == userId ? repository.get(id) : null;
+        Meal meal = checkNotFoundWithId(repository.get(id), id);
+
+        if (meal.getUserId() != userId) {
+            throw new IllegalArgumentException("Wrong user id!");
+        }
+
+        return meal;
     }
 
     @Override
     public List<Meal> getAll(int userId) {
         log.info("getAll");
 
-        return getAll(userId, LocalDate.MIN, LocalDate.MAX);
+        return getAllFiltered(userId, meal -> meal.getUserId() == userId);
     }
 
     @Override
-    public List<Meal> getAll(int userId, LocalDate startDate, LocalDate endDate) {
+    public List<Meal> getAllFilteredWithDate(int userId, LocalDate startDate, LocalDate endDate) {
         log.info("getAll filtered by date and time");
 
-        return new ArrayList<>(repository.values())
+        return getAllFiltered(userId, meal ->
+                meal.getUserId() == userId && DateTimeUtil.isBetween(meal.getDate(), startDate, endDate));
+    }
+
+    private List<Meal> getAllFiltered(int userId, Predicate<Meal> filter) {
+        return repository.values()
                 .stream()
-                .filter(meal -> meal.getUserId() == userId)
-                .filter(meal -> DateTimeUtil.isBetween(meal.getDate(), startDate, endDate))
-                .sorted(Collections.reverseOrder(Comparator.comparing(Meal::getDate))).collect(Collectors.toList());
+                .filter(filter)
+                .sorted(Collections.reverseOrder(Comparator.comparing(Meal::getDate)))
+                .collect(Collectors.toList());
     }
 }
 
