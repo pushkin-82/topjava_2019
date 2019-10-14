@@ -7,15 +7,15 @@ import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
-import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFound;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 public class MealService {
 
-    private MealRepository repository;
+    private final MealRepository repository;
 
     @Autowired
     public MealService(MealRepository repository) {
@@ -35,7 +35,8 @@ public class MealService {
     }
 
     public List<Meal> getAll(int userId) {
-        return repository.getAll(userId);
+        List<Meal> resultList = repository.getAll(userId);
+        return resultList == null ? Collections.emptyList() : resultList;
     }
 
     public List<Meal> getAllFiltered(int userId, LocalDate startDate, LocalDate endDate) {
