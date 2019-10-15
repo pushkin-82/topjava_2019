@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Meal extends AbstractBaseEntity {
-    private final Integer userId;
+    private Integer userId;
 
     private final LocalDateTime dateTime;
 
@@ -34,6 +34,10 @@ public class Meal extends AbstractBaseEntity {
         return userId;
     }
 
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     public LocalDateTime getDateTime() {
         return dateTime;
     }
@@ -52,10 +56,6 @@ public class Meal extends AbstractBaseEntity {
 
     public LocalTime getTime() {
         return dateTime.toLocalTime();
-    }
-
-    public boolean isNew() {
-        return id == null;
     }
 
     @Override
