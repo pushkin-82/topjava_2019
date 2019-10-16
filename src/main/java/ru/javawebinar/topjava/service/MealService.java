@@ -7,11 +7,9 @@ import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
-import static ru.javawebinar.topjava.web.SecurityUtil.getAuthUserId;
 
 @Service
 public class MealService {
@@ -23,28 +21,27 @@ public class MealService {
         this.repository = repository;
     }
 
-    public Meal create(Meal meal) {
-        return repository.save(getAuthUserId(), meal);
+    public Meal create(int userId, Meal meal) {
+        return repository.save(userId, meal);
     }
 
-    public void delete(int id) throws NotFoundException {
-        checkNotFoundWithId(repository.delete(getAuthUserId(), id), id);
+    public void delete(int userId, int id) throws NotFoundException {
+        checkNotFoundWithId(repository.delete(userId, id), id);
     }
 
-    public Meal get(int id) throws NotFoundException {
-        return checkNotFoundWithId(repository.get(getAuthUserId(), id), id);
+    public Meal get(int userId, int id) throws NotFoundException {
+        return checkNotFoundWithId(repository.get(userId, id), id);
     }
 
-    public List<Meal> getAll() {
-        return repository.getAll(getAuthUserId());
+    public List<Meal> getAll(int userId) {
+        return repository.getAll(userId);
     }
 
-    public List<Meal> getAllFiltered(LocalDate startDate, LocalDate endDate) {
-        return repository.getAllFilteredWithDate(getAuthUserId(), startDate, endDate);
+    public List<Meal> getAllFiltered(int userId, LocalDate startDate, LocalDate endDate) {
+        return repository.getAllFilteredWithDate(userId, startDate, endDate);
     }
 
-    public void update(Meal meal) throws NotFoundException {
-        checkNotFoundWithId(repository.save(getAuthUserId(), meal), meal.getId());
+    public void update(int userId, Meal meal) throws NotFoundException {
+        checkNotFoundWithId(repository.save(userId, meal), meal.getId());
     }
-
 }
