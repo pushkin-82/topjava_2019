@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.DateTimeUtil;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -21,11 +22,11 @@ public class MealService {
         this.repository = repository;
     }
 
-    public Meal get(int id, int userId) {
+    public Meal get(int id, int userId) throws NotFoundException {
         return checkNotFoundWithId(repository.get(id, userId), id);
     }
 
-    public void delete(int id, int userId) {
+    public void delete(int id, int userId) throws NotFoundException  {
         checkNotFoundWithId(repository.delete(id, userId), id);
     }
 
@@ -39,7 +40,7 @@ public class MealService {
         return repository.getAll(userId);
     }
 
-    public void update(Meal meal, int userId) {
+    public void update(Meal meal, int userId) throws NotFoundException  {
         checkNotFoundWithId(repository.save(meal, userId), meal.getId());
     }
 
