@@ -1,6 +1,8 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.Stopwatch;
 import org.junit.rules.TestName;
@@ -18,8 +20,8 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -34,19 +36,24 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
     private static final Logger log = LoggerFactory.getLogger(MealServiceTest.class);
-    private static final List<String> summary = new ArrayList<>();
+
+    private static final Map<String, Long> summary = new HashMap<>();
 
     @Rule
     public final ExpectedException thrown = ExpectedException.none();
 
     @Rule
+    public final TestName testName = new TestName();
+
+    @Rule
     public final Stopwatch stopwatch = new Stopwatch() {
         @Override
         protected void finished(long nanos, Description description) {
-            String testSummary = "\n\nTest \"" + description.getMethodName() + "\" finished successful; it taken " +
-                    TimeUnit.NANOSECONDS.toMillis(nanos) + " msec";
-            summary.add(testSummary);
-            log.info(testSummary);
+            String name = testName.getMethodName();
+            long time = TimeUnit.NANOSECONDS.toMillis(nanos);
+
+            summary.put(name, time);
+            log.info("\n\nTest time: " + time + "ms");
         }
     };
 
@@ -55,7 +62,13 @@ public class MealServiceTest {
 
     @AfterClass
     public static void afterClass() {
-        log.info(summary.toString().replaceAll(", ", ""));
+        StringBuilder sb = new StringBuilder("\n\n");
+        sb.append(String.format("%-15s   %s\n", "Test name", "Test time"))
+                .append("----------------------------\n");
+        for (Map.Entry<String, Long> pair : summary.entrySet()) {
+            sb.append(String.format("%-15s -%5d ms\n", pair.getKey(), pair.getValue()));
+        }
+        log.info(sb.toString());
     }
 
     @Test
