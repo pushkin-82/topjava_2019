@@ -12,6 +12,10 @@ public class Profiles {
             POSTGRES_DB = "postgres",
             HSQL_DB = "hsqldb";
 
+    public static final String
+            JDBC_HSQLDB = "jdbchsqldb",
+            JDBC_POSTGRES = "jdbcpostgres";
+
     //  Get DB profile depending of DB driver in classpath
     public static String getActiveDbProfile() {
         try {
@@ -28,8 +32,11 @@ public class Profiles {
     }
 
     public static String getActiveRepositoryProfile() {
+        return JDBC;
+    }
 
-
-        return DATAJPA;
+    public static String getActiveJdbcDbProfile() {
+        String dbProfile = getActiveDbProfile();
+        return POSTGRES_DB.equals(dbProfile) ? JDBC_POSTGRES : JDBC_HSQLDB;
     }
 }
