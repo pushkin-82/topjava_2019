@@ -32,11 +32,11 @@ public class Profiles {
     }
 
     public static String getActiveRepositoryProfile() {
-        return JDBC;
+        return DATAJPA;
     }
 
     public static String getActiveJdbcDbProfile() {
         String dbProfile = getActiveDbProfile();
-        return POSTGRES_DB.equals(dbProfile) ? JDBC_POSTGRES : JDBC_HSQLDB;
+        return POSTGRES_DB.equals(dbProfile) ? JDBC_POSTGRES : HSQL_DB.equals(dbProfile) ? JDBC_HSQLDB : null;
     }
 }
