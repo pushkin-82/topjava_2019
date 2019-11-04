@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.service;
 
 import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.Stopwatch;
@@ -29,7 +30,7 @@ public abstract class ServiceTest {
 
     private static final Logger log = getLogger("result");
 
-    private static StringBuilder results = new StringBuilder();
+    private static StringBuilder results;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -43,6 +44,11 @@ public abstract class ServiceTest {
             log.info(result + " ms\n");
         }
     };
+
+    @BeforeClass
+    public static void clearResultString() {
+        results = new StringBuilder();
+    }
 
     @AfterClass
     public static void printResult() {
