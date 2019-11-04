@@ -4,12 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static ru.javawebinar.topjava.util.DateTimeUtil.getEndExclusive;
 import static ru.javawebinar.topjava.util.DateTimeUtil.getStartInclusive;
@@ -22,14 +20,14 @@ public class DataJpaMealRepository implements MealRepository {
     private CrudMealRepository crudRepository;
 
     @Autowired
-    private DataJpaUserRepository dataJpaUserRepository;
+    private CrudUserRepository crudUserRepository;
 
     @Override
     public Meal save(Meal meal, int userId) {
         if (!meal.isNew() && get(meal.getId(), userId) == null) {
             return null;
         }
-        meal.setUser(dataJpaUserRepository.get(userId));
+        meal.setUser(crudUserRepository.getOne(userId));
 
         return crudRepository.save(meal);
     }
@@ -47,10 +45,6 @@ public class DataJpaMealRepository implements MealRepository {
 
     @Override
     public List<Meal> getAll(int userId) {
-//        return crudRepository.findAll(SORT_DATE_TIME)
-//                .stream()
-//                .filter(meal -> meal.getUser().getId() == userId)
-//                .collect(Collectors.toList());
         return crudRepository.getAll(userId);
     }
 
