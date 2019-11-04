@@ -33,8 +33,7 @@ public class MealServlet extends HttpServlet {
         springContext = new GenericXmlApplicationContext();
         springContext.getEnvironment().setActiveProfiles(
                 Profiles.getActiveDbProfile(),
-                Profiles.getActiveRepositoryProfile(),
-                Profiles.getActiveJdbcDbProfile()
+                Profiles.getActiveRepositoryProfile()
         );
         springContext.load("spring/spring-app.xml", "spring/spring-db.xml");
         springContext.refresh();

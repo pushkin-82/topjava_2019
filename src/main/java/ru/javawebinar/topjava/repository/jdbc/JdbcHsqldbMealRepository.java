@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.model.Meal;
 
 import java.sql.Timestamp;
@@ -16,7 +17,7 @@ import static ru.javawebinar.topjava.util.DateTimeUtil.getEndExclusive;
 import static ru.javawebinar.topjava.util.DateTimeUtil.getStartInclusive;
 
 @Repository
-@Profile("jdbchsqldb")
+@Profile(Profiles.HSQL_DB)
 public class JdbcHsqldbMealRepository extends JdbcMealRepository {
 
     @Autowired

@@ -47,10 +47,11 @@ public class DataJpaMealRepository implements MealRepository {
 
     @Override
     public List<Meal> getAll(int userId) {
-        return crudRepository.findAll(SORT_DATE_TIME)
-                .stream()
-                .filter(meal -> meal.getUser().getId() == userId)
-                .collect(Collectors.toList());
+//        return crudRepository.findAll(SORT_DATE_TIME)
+//                .stream()
+//                .filter(meal -> meal.getUser().getId() == userId)
+//                .collect(Collectors.toList());
+        return crudRepository.getAll(userId);
     }
 
     @Override
