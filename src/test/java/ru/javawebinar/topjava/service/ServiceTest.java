@@ -30,7 +30,7 @@ public abstract class ServiceTest {
 
     private static final Logger log = getLogger("result");
 
-    private static StringBuilder results;
+    private static StringBuilder results = new StringBuilder();
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -47,7 +47,7 @@ public abstract class ServiceTest {
 
     @BeforeClass
     public static void clearResultString() {
-        results = new StringBuilder();
+        results.setLength(0);
     }
 
     @AfterClass

@@ -14,8 +14,6 @@ import static ru.javawebinar.topjava.util.DateTimeUtil.getStartInclusive;
 
 @Repository
 public class DataJpaMealRepository implements MealRepository {
-    private static final Sort SORT_DATE_TIME = Sort.by(Sort.Direction.DESC, "dateTime");
-
     @Autowired
     private CrudMealRepository crudRepository;
 
@@ -51,5 +49,10 @@ public class DataJpaMealRepository implements MealRepository {
     @Override
     public List<Meal> getBetweenInclusive(LocalDate startDate, LocalDate endDate, int userId) {
         return crudRepository.getAllBetweenInclusive(getStartInclusive(startDate), getEndExclusive(endDate), userId);
+    }
+
+    @Override
+    public Meal getByIdAndUserId(int id, int userId) {
+        return crudRepository.getByIdAndUserId(id, userId);
     }
 }

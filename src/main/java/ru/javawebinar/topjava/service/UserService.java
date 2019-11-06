@@ -54,4 +54,8 @@ public class UserService {
         Assert.notNull(user, "user must not be null");
         checkNotFoundWithId(repository.save(user), user.getId());
     }
+
+    public User getByIdAndMeals(int id) throws NotFoundException {
+        return checkNotFoundWithId(repository.getByIdAndMeals(id), id);
+    }
 }
