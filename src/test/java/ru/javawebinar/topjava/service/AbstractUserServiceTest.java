@@ -24,18 +24,11 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     protected UserService service;
 
     @Autowired
-    private CacheManager cacheManager;
-
-    @Autowired//(required = false)
-    protected JpaUtil jpaUtil;
+    protected CacheManager cacheManager;
 
     @Before
     public void setUp() throws Exception {
-        if (isJdbcProfile()) {
-            return;
-        }
         cacheManager.getCache("users").clear();
-        jpaUtil.clear2ndLevelHibernateCache();
     }
 
     @Test
@@ -94,13 +87,4 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
         assertMatch(all, ADMIN, USER);
     }
 
-    @Test
-    public void createWithException() throws Exception {
-        Assume.assumeFalse(isJdbcProfile());
-        validateRootCause(() -> service.create(new User(null, "  ", "mail@yandex.ru", "password", Role.ROLE_USER)), ConstraintViolationException.class);
-        validateRootCause(() -> service.create(new User(null, "User", "  ", "password", Role.ROLE_USER)), ConstraintViolationException.class);
-        validateRootCause(() -> service.create(new User(null, "User", "mail@yandex.ru", "  ", Role.ROLE_USER)), ConstraintViolationException.class);
-        validateRootCause(() -> service.create(new User(null, "User", "mail@yandex.ru", "password", 9, true, new Date(), Set.of())), ConstraintViolationException.class);
-        validateRootCause(() -> service.create(new User(null, "User", "mail@yandex.ru", "password", 10001, true, new Date(), Set.of())), ConstraintViolationException.class);
-    }
 }
