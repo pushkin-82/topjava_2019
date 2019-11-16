@@ -32,26 +32,19 @@ public class JdbcUserRepository implements UserRepository {
 
     private final SimpleJdbcInsert insertUser;
 
-    private PlatformTransactionManager transactionManager;
-
     @Autowired
-    public JdbcUserRepository(JdbcTemplate jdbcTemplate,
-                              NamedParameterJdbcTemplate namedParameterJdbcTemplate,
-                              PlatformTransactionManager transactionManager) {
+    public JdbcUserRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.insertUser = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("users")
                 .usingGeneratedKeyColumns("id");
 
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-        this.transactionManager = transactionManager;
     }
 
     @Override
+    @Transactional
     public User save(User user) {
-        TransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
-        TransactionStatus transactionStatus = transactionManager.getTransaction(transactionDefinition);
-
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
 
         if (user.isNew()) {
@@ -63,21 +56,13 @@ public class JdbcUserRepository implements UserRepository {
                         "WHERE id = :id", parameterSource) == 0) {
             return null;
         }
-
-        transactionManager.commit(transactionStatus);
         return user;
     }
 
     @Override
+    @Transactional
     public boolean delete(int id) {
-        TransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
-        TransactionStatus status = transactionManager.getTransaction(transactionDefinition);
-
-        boolean result = jdbcTemplate.update("DELETE FROM users WHERE id=?", id) != 0;
-
-        transactionManager.commit(status);
-
-        return result;
+        return jdbcTemplate.update("DELETE FROM users WHERE id=?", id) != 0;
     }
 
     @Override
