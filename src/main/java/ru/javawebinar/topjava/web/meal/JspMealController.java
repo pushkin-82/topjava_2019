@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.util.MealsUtil;
@@ -26,10 +28,10 @@ import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalDate;
 import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalTime;
 
 @Controller
-//@RequestMapping("/meals")
+@RequestMapping("/meals")
 public class JspMealController extends AbstractMealController {
 
-    @GetMapping("/meals")
+    @GetMapping
     public String getMeals(Model model) {
         model.addAttribute("meals", super.getAll());
         return "meals";
@@ -39,7 +41,7 @@ public class JspMealController extends AbstractMealController {
     public String delete(HttpServletRequest request) {
         super.delete(getId(request));
 
-        return "redirect:meals";
+        return "redirect:/meals";
     }
 
     @GetMapping("/create")
@@ -87,7 +89,7 @@ public class JspMealController extends AbstractMealController {
             mealService.update(meal, userId);
         }
 
-        return "redirect:meals";
+        return "redirect:/meals";
     }
 
 }

@@ -26,7 +26,7 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Autowired
     private CacheManager cacheManager;
 
-    @Autowired(required = false)
+    @Autowired//(required = false)
     protected JpaUtil jpaUtil;
 
     @Before
