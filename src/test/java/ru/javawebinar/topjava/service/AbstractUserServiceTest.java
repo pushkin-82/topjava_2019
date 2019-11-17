@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +7,9 @@ import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
-import ru.javawebinar.topjava.repository.JpaUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
-import javax.validation.ConstraintViolationException;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import static ru.javawebinar.topjava.UserTestData.*;
 
@@ -53,6 +48,12 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     }
 
     @Test(expected = NotFoundException.class)
+    public void deleteWithSeveralRoles() throws Exception {
+        service.delete(ADMIN_ID);
+        service.get(ADMIN_ID);
+    }
+
+    @Test(expected = NotFoundException.class)
     public void deletedNotFound() throws Exception {
         service.delete(1);
     }
@@ -61,6 +62,12 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     public void get() throws Exception {
         User user = service.get(USER_ID);
         assertMatch(user, USER);
+    }
+
+    @Test
+    public void getWithSeveralRoles() throws Exception {
+        User user = service.get(ADMIN_ID);
+        assertMatch(user, ADMIN);
     }
 
     @Test(expected = NotFoundException.class)
@@ -75,10 +82,23 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    public void getWithSeveralRolesByEmail() throws Exception {
+        User user = service.getByEmail("admin@gmail.com");
+        assertMatch(user, ADMIN);
+    }
+
+    @Test
     public void update() throws Exception {
         User updated = getUpdated();
         service.update(updated);
         assertMatch(service.get(USER_ID), updated);
+    }
+
+    @Test
+    public void updateWithSeveralRoles() throws Exception {
+        User updated = getUpdatedWithSeveralRoles();
+        service.update(updated);
+        assertMatch(service.get(ADMIN_ID), updated);
     }
 
     @Test

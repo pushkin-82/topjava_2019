@@ -28,6 +28,13 @@ public class UserTestData {
         return updated;
     }
 
+    public static User getUpdatedWithSeveralRoles() {
+        User updated = new User(ADMIN);
+        updated.setName("UpdatedAdminName");
+        updated.setCaloriesPerDay(879);
+        return updated;
+    }
+
     public static void assertMatch(User actual, User expected) {
         assertThat(actual).isEqualToIgnoringGivenFields(expected, "registered", "meals");
     }

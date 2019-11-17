@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.Assume;
 import org.junit.Test;
 import ru.javawebinar.topjava.model.Meal;
 
