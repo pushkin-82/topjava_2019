@@ -30,6 +30,15 @@ import static ru.javawebinar.topjava.util.ValidationUtil.getRootCause;
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 @ActiveProfiles(resolver = ActiveDbProfileResolver.class)
 abstract public class AbstractServiceTest {
+    @Autowired
+    private Environment env;
+
+    protected boolean isJdbcProfile() {
+        String[] profiles = env.getActiveProfiles();
+
+        return Arrays.asList(profiles).contains("jdbc");
+    }
+
     @ClassRule
     public static ExternalResource summary = TimingRules.SUMMARY;
 

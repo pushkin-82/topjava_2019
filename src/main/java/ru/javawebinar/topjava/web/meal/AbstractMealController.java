@@ -16,12 +16,35 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
+import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
+import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
+
 
 public abstract class AbstractMealController {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     protected MealService mealService;
+
+    public Meal get(int id) {
+        int userId = SecurityUtil.authUserId();
+        log.info("get meal {} for user {}", id, userId);
+        return mealService.get(id, userId);
+    }
+
+    public Meal create(Meal meal) {
+        int userId = SecurityUtil.authUserId();
+        checkNew(meal);
+        log.info("create {} for user {}", meal, userId);
+        return mealService.create(meal, userId);
+    }
+
+    public void update(Meal meal, int id) {
+        int userId = SecurityUtil.authUserId();
+        assureIdConsistent(meal, id);
+        log.info("update {} for user {}", meal, userId);
+        mealService.update(meal, userId);
+    }
 
     protected int getId(HttpServletRequest request) {
         String paramId = Objects.requireNonNull(request.getParameter("id"));
