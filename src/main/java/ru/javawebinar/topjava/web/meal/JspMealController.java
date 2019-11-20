@@ -22,8 +22,17 @@ import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalTime;
 public class JspMealController extends AbstractMealController {
 
     @GetMapping
-    public String getMeals(Model model) {
-        model.addAttribute("meals", getAll());
+    public String getMeals(HttpServletRequest request, Model model) {
+        LocalDate startDate = parseLocalDate(request.getParameter("startDate"));
+        LocalDate endDate = parseLocalDate(request.getParameter("endDate"));
+        LocalTime startTime = parseLocalTime(request.getParameter("startTime"));
+        LocalTime endTime = parseLocalTime(request.getParameter("endTime"));
+
+        if (startDate == null && endDate == null && startTime == null && endTime == null) {
+            model.addAttribute("meals", getAll());
+        } else {
+            model.addAttribute("meals", getBetween(startDate, startTime, endDate, endTime));
+        }
         return "meals";
     }
 
@@ -50,19 +59,7 @@ public class JspMealController extends AbstractMealController {
         return "mealForm";
     }
 
-    @GetMapping("/filter")
-    public String filter(HttpServletRequest request, Model model) {
-        LocalDate startDate = parseLocalDate(request.getParameter("startDate"));
-        LocalDate endDate = parseLocalDate(request.getParameter("endDate"));
-        LocalTime startTime = parseLocalTime(request.getParameter("startTime"));
-        LocalTime endTime = parseLocalTime(request.getParameter("endTime"));
-
-        model.addAttribute("meals", getBetween(startDate, startTime, endDate, endTime));
-
-        return "meals";
-    }
-
-    @PostMapping("/meals")
+    @PostMapping
     public String createOrUpdate(HttpServletRequest request) {
         Meal meal = new Meal(
                 LocalDateTime.parse(request.getParameter("dateTime")),
@@ -72,8 +69,7 @@ public class JspMealController extends AbstractMealController {
         if (StringUtils.isEmpty(request.getParameter("id"))) {
             create(meal);
         } else {
-            meal.setId(getId(request));
-            update(meal, meal.getId());
+            update(meal, getId(request));
         }
 
         return "redirect:/meals";
