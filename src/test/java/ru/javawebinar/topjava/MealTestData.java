@@ -34,12 +34,9 @@ public class MealTestData {
 
     public static final List<Meal> MEALS = List.of(MEAL7, MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1);
     public static final List<MealTo> MEALS_WITH_EXCEED = MealsUtil.getTos(MEALS, UserTestData.USER.getCaloriesPerDay());
-    public static final List<MealTo> FILTERED_MEALS = MealsUtil.getTos(List.of(MEAL6), UserTestData.USER.getCaloriesPerDay());
+    public static final List<MealTo> FILTERED_MEALS = List.of(MealsUtil.createTo(MEAL6, true), MealsUtil.createTo(MEAL5, true));
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    public static final LocalDateTime START_DATE_TIME = LocalDateTime.of(2015, Month.MAY, 31, 11, 11);
-
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    public static final LocalDateTime START_DATE_TIME = LocalDateTime.of(2015, Month.MAY, 31, 9, 11);
     public static final LocalDateTime END_DATE_TIME = LocalDateTime.of(2015, Month.MAY, 31, 15, 15);
 
     public static Meal getNew() {
