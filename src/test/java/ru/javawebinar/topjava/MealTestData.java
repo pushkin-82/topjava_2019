@@ -1,12 +1,21 @@
 package ru.javawebinar.topjava;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.test.web.servlet.ResultMatcher;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.to.MealTo;
+import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.Month;
 import java.util.List;
 
 import static java.time.LocalDateTime.of;
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.javawebinar.topjava.TestUtil.readFromJsonMvcResult;
+import static ru.javawebinar.topjava.TestUtil.readListFromJsonMvcResult;
 import static ru.javawebinar.topjava.model.AbstractBaseEntity.START_SEQ;
 
 public class MealTestData {
@@ -24,6 +33,14 @@ public class MealTestData {
     public static final Meal ADMIN_MEAL2 = new Meal(ADMIN_MEAL_ID + 1, of(2015, Month.JUNE, 1, 21, 0), "Админ ужин", 1500);
 
     public static final List<Meal> MEALS = List.of(MEAL7, MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1);
+    public static final List<MealTo> MEALS_WITH_EXCEED = MealsUtil.getTos(MEALS, UserTestData.USER.getCaloriesPerDay());
+    public static final List<MealTo> FILTERED_MEALS = MealsUtil.getTos(List.of(MEAL6), UserTestData.USER.getCaloriesPerDay());
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    public static final LocalDateTime START_DATE_TIME = LocalDateTime.of(2015, Month.MAY, 31, 11, 11);
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    public static final LocalDateTime END_DATE_TIME = LocalDateTime.of(2015, Month.MAY, 31, 15, 15);
 
     public static Meal getNew() {
         return new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "Созданный ужин", 300);
@@ -43,5 +60,28 @@ public class MealTestData {
 
     public static void assertMatch(Iterable<Meal> actual, Iterable<Meal> expected) {
         assertThat(actual).usingElementComparatorIgnoringFields("user").isEqualTo(expected);
+    }
+
+    public static void assertMatchTo(MealTo actual, MealTo expected) {
+        assertThat(actual).isEqualToIgnoringGivenFields(expected, "user", "exceed");
+    }
+
+    public static void assertMatchTo(Iterable<MealTo> actual, MealTo... expected) {
+        assertMatchTo(actual, List.of(expected));
+    }
+
+    public static void assertMatchTo(Iterable<MealTo> actual, Iterable<MealTo> expected) {
+        assertThat(actual).usingElementComparatorIgnoringFields("user", "exceed").isEqualTo(expected);
+    }
+
+    public static ResultMatcher contentJson(Meal... expected) {
+        return result -> assertMatch(readListFromJsonMvcResult(result, Meal.class), List.of(expected));
+    }
+
+    public static ResultMatcher contentJson(Iterable<MealTo> expected) {
+        return result -> assertMatchTo(readListFromJsonMvcResult(result, MealTo.class), expected);
+    }
+    public static ResultMatcher contentJson(Meal expected) {
+        return result -> assertMatch(readFromJsonMvcResult(result, Meal.class), expected);
     }
 }
