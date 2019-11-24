@@ -3,11 +3,14 @@ package ru.javawebinar.topjava.web.meal;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.util.DateTimeUtil;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -18,9 +21,6 @@ import java.util.List;
 public class MealRestController extends AbstractMealController {
 
     static final String REST_URL = "/rest/meals";
-
-//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-//    private LocalDateTime startDateTime, endDateTime;
 
     @GetMapping
     public List<MealTo> getAll() {
@@ -40,11 +40,13 @@ public class MealRestController extends AbstractMealController {
         super.delete(id);
     }
 
-    @Override
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Meal create(@RequestBody Meal meal) {
-        return super.create(meal);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Meal> createWithLocation(@RequestBody Meal meal) {
+        Meal created = super.create(meal);
+        URI uriToNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+        return ResponseEntity.created(uriToNewResource).body(created);
     }
 
     @Override
@@ -60,4 +62,12 @@ public class MealRestController extends AbstractMealController {
         return super.getBetween(startDateTime.toLocalDate(), startDateTime.toLocalTime(),
                 endDateTime.toLocalDate(), endDateTime.toLocalTime());
     }
+
+//    @GetMapping("/filter")
+//    public List<MealTo> getBetween(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+//                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime startTime,
+//                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+//                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime endTime) {
+//        return super.getBetween(startDate, startTime, endDate, endTime);
+//    }
 }

@@ -33,7 +33,7 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(contentJson(MealTestData.MEALS_WITH_EXCEED));
+                .andExpect(contentJson(MealTestData.MEAL_TOS));
     }
 
     @Test
@@ -56,12 +56,12 @@ class MealRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void create() throws Exception {
+    void createWithLocation() throws Exception {
         Meal newMeal = MealTestData.getNew();
-        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.put(REST_URL)
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newMeal)))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isCreated());
 
         Meal created = readFromJson(action, Meal.class);
         Integer newId = created.getId();
@@ -89,6 +89,17 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(contentJson(FILTERED_MEALS));
+                .andExpect(contentJson(FILTERED_MEAL_TOS));
     }
+
+//    @Test
+//    void getBetween() throws Exception {
+//        String getBetweenRestUrl = REST_URL + "filter?startDate="
+//                + START_DATE_TIME + "&endDateTime=" + END_DATE_TIME;
+//        mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
+//                .andExpect(contentJson(FILTERED_MEALS));
+//    }
 }

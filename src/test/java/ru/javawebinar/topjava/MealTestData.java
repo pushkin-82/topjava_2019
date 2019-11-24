@@ -33,11 +33,16 @@ public class MealTestData {
     public static final Meal ADMIN_MEAL2 = new Meal(ADMIN_MEAL_ID + 1, of(2015, Month.JUNE, 1, 21, 0), "Админ ужин", 1500);
 
     public static final List<Meal> MEALS = List.of(MEAL7, MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1);
-    public static final List<MealTo> MEALS_WITH_EXCEED = MealsUtil.getTos(MEALS, UserTestData.USER.getCaloriesPerDay());
-    public static final List<MealTo> FILTERED_MEALS = List.of(MealsUtil.createTo(MEAL6, true), MealsUtil.createTo(MEAL5, true));
+    public static final List<MealTo> MEAL_TOS = MealsUtil.getTos(MEALS, UserTestData.USER.getCaloriesPerDay());
+    public static final List<MealTo> FILTERED_MEAL_TOS = List.of(MealsUtil.createTo(MEAL6, true), MealsUtil.createTo(MEAL5, true));
 
     public static final LocalDateTime START_DATE_TIME = LocalDateTime.of(2015, Month.MAY, 31, 9, 11);
     public static final LocalDateTime END_DATE_TIME = LocalDateTime.of(2015, Month.MAY, 31, 15, 15);
+
+    public static final LocalDate START_DATE = LocalDate.of(2015, Month.MAY, 31);
+    public static final LocalDate END_DATE = LocalDate.of(2015, Month.MAY, 31);
+    public static final LocalTime START_TIME = LocalTime.of(9, 11);
+    public static final LocalTime END_TIME = LocalTime.of(15, 15);
 
     public static Meal getNew() {
         return new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "Созданный ужин", 300);
@@ -60,7 +65,7 @@ public class MealTestData {
     }
 
     public static void assertMatchTo(MealTo actual, MealTo expected) {
-        assertThat(actual).isEqualToIgnoringGivenFields(expected, "user", "exceed");
+        assertThat(actual).isEqualToComparingFieldByField(expected);
     }
 
     public static void assertMatchTo(Iterable<MealTo> actual, MealTo... expected) {
@@ -68,7 +73,7 @@ public class MealTestData {
     }
 
     public static void assertMatchTo(Iterable<MealTo> actual, Iterable<MealTo> expected) {
-        assertThat(actual).usingElementComparatorIgnoringFields("user", "exceed").isEqualTo(expected);
+        assertThat(actual).usingFieldByFieldElementComparator().isEqualTo(expected);
     }
 
     public static ResultMatcher contentJson(Meal... expected) {
