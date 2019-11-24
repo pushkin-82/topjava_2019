@@ -1,0 +1,84 @@
+{
+	"variables": [],
+	"info": {
+		"name": "topjava/rest/meals",
+		"_postman_id": "7c919838-2a8a-94cc-64c0-d950a831a50d",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "MealsGetAll",
+			"request": {
+				"url": "",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "MealsGet",
+			"request": {
+				"url": "",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "MealsUpdate",
+			"request": {
+				"url": "http://localhost:8080/topjava/rest/meals/100005",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"dateTime\":\"2019-11-24T20:15:00\", \"description\":\"Dinner\", \"calories\":\"510\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "MealsDelete",
+			"request": {
+				"url": "http://localhost:8080/topjava/rest/meals/100007",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "MealsCreate",
+			"request": {
+				"url": "http://localhost:8080/topjava/rest/meals",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"dateTime\":\"2019-11-24T20:32:00\", \"description\":\"Dinner\", \"calories\":\"510\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
