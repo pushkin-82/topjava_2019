@@ -83,8 +83,8 @@ class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getBetween() throws Exception {
-        String getBetweenRestUrl = REST_URL + "filter?startDateTime="
-                + START_DATE_TIME + "&endDateTime=" + END_DATE_TIME;
+        String getBetweenRestUrl = REST_URL + "filter?startDate="
+                + START_DATE + "&endDate=" + END_DATE + "&startTime=" + START_TIME + "&endTime=" + END_TIME;
         mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -92,14 +92,25 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .andExpect(contentJson(FILTERED_MEAL_TOS));
     }
 
-//    @Test
-//    void getBetween() throws Exception {
-//        String getBetweenRestUrl = REST_URL + "filter?startDate="
-//                + START_DATE_TIME + "&endDateTime=" + END_DATE_TIME;
-//        mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
-//                .andExpect(contentJson(FILTERED_MEALS));
-//    }
+    @Test
+    void getBetweenWithNullStartTime() throws Exception {
+        String getBetweenRestUrl = REST_URL + "filter?startDate="
+                + START_DATE + "&endDate=" + END_DATE + "&startTime=" + "" + "&endTime=" + END_TIME;
+        mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(contentJson(FILTERED_WITH_NULL_START_TIME_MEAL_TOS));
+    }
+
+    @Test
+    void getBetweenWithNullStartDate() throws Exception {
+        String getBetweenRestUrl = REST_URL + "filter?startDate="
+                + "" + "&endDate=" + END_DATE + "&startTime=" + START_TIME + "&endTime=" + END_TIME;
+        mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(contentJson(FILTERED_WITH_NULL_START_DATE_MEAL_TOS));
+    }
 }

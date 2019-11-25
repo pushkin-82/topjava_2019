@@ -73,7 +73,7 @@ Content-Type: application/json
 ###
 
 # curl http://localhost:8080/topjava/rest/meals/filter?startDateTime=2015-05-31T09:11:00&endDateTime=2015-05-31T15:15:00
-GET http://localhost:8080/topjava/rest/meals/filter?startDateTime=2015-05-30T09:11:00&endDateTime=2015-05-31T15:15:00
+GET http://localhost:8080/topjava/rest/meals/filter?startDate=2019-11-06&endDate=&startTime=23:00:00&endTime=
 
 > {% client.test("Response executed successfully", function() {
     client.assert(response.status === 200, "Response status is not 200");
@@ -82,5 +82,4 @@ GET http://localhost:8080/topjava/rest/meals/filter?startDateTime=2015-05-30T09:
   %}
 
 ###
-
 

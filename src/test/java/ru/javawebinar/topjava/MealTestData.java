@@ -34,7 +34,18 @@ public class MealTestData {
 
     public static final List<Meal> MEALS = List.of(MEAL7, MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1);
     public static final List<MealTo> MEAL_TOS = MealsUtil.getTos(MEALS, UserTestData.USER.getCaloriesPerDay());
-    public static final List<MealTo> FILTERED_MEAL_TOS = List.of(MealsUtil.createTo(MEAL6, true), MealsUtil.createTo(MEAL5, true));
+    public static final List<MealTo> FILTERED_MEAL_TOS =
+            List.of(MealsUtil.createTo(MEAL6, true),
+                    MealsUtil.createTo(MEAL5, true));
+    public static final List<MealTo> FILTERED_WITH_NULL_START_TIME_MEAL_TOS =
+            List.of(MealsUtil.createTo(MEAL6, true),
+                    MealsUtil.createTo(MEAL5, true),
+                    MealsUtil.createTo(MEAL4, true));
+    public static final List<MealTo> FILTERED_WITH_NULL_START_DATE_MEAL_TOS =
+            List.of(MealsUtil.createTo(MEAL6, true),
+                    MealsUtil.createTo(MEAL5, true),
+                    MealsUtil.createTo(MEAL2, false),
+                    MealsUtil.createTo(MEAL1, false));
 
     public static final LocalDateTime START_DATE_TIME = LocalDateTime.of(2015, Month.MAY, 31, 9, 11);
     public static final LocalDateTime END_DATE_TIME = LocalDateTime.of(2015, Month.MAY, 31, 15, 15);
