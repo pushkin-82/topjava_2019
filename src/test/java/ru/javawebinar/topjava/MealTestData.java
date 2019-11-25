@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.test.web.servlet.ResultMatcher;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealTo;

@@ -93,7 +93,7 @@ class MealRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getBetweenWithNullStartTime() throws Exception {
+    void getBetweenWithEmptyStartTime() throws Exception {
         String getBetweenRestUrl = REST_URL + "filter?startDate="
                 + START_DATE + "&endDate=" + END_DATE + "&startTime=" + "" + "&endTime=" + END_TIME;
         mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl))
@@ -104,9 +104,30 @@ class MealRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getBetweenWithNullStartDate() throws Exception {
+    void getBetweenWithNullStartTime() throws Exception {
+        String getBetweenRestUrl = REST_URL + "filter?startDate="
+                + START_DATE + "&endDate=" + END_DATE + "&endTime=" + END_TIME;
+        mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(contentJson(FILTERED_WITH_NULL_START_TIME_MEAL_TOS));
+    }
+
+    @Test
+    void getBetweenWithEmptyStartDate() throws Exception {
         String getBetweenRestUrl = REST_URL + "filter?startDate="
                 + "" + "&endDate=" + END_DATE + "&startTime=" + START_TIME + "&endTime=" + END_TIME;
+        mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(contentJson(FILTERED_WITH_NULL_START_DATE_MEAL_TOS));
+    }
+
+    @Test
+    void getBetweenWithNullStartDate() throws Exception {
+        String getBetweenRestUrl = REST_URL + "filter?&endDate=" + END_DATE + "&startTime=" + START_TIME + "&endTime=" + END_TIME;
         mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl))
                 .andDo(print())
                 .andExpect(status().isOk())

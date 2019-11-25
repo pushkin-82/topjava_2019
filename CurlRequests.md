@@ -14,5 +14,4 @@ Update meal:
 curl -H "Content-Type: application/json" -X PUT -d '{\"dateTime\":\"2019-11-24T20:15:00\", \"description\":\"Dinner\", \"calories\":\"510\"}' http://localhost:8080/topjava/rest/meals/100005
 
 Get meals filtered by dateTime
-curl http://localhost:8080/topjava/rest/meals/filter?startDateTime=2015-05-31T09:11:00&endDateTime=2015-05-31T15:15:00
-
+curl http://localhost:8080/topjava/rest/meals/filter?startDate=2019-11-06&endDate=&startTime=23:00:00&endTime=
