@@ -74,16 +74,8 @@ public class MealTestData {
         assertThat(actual).usingElementComparatorIgnoringFields("user").isEqualTo(expected);
     }
 
-    public static void assertMatchTo(MealTo actual, MealTo expected) {
-        assertThat(actual).isEqualToComparingFieldByField(expected);
-    }
-
-    public static void assertMatchTo(Iterable<MealTo> actual, MealTo... expected) {
-        assertMatchTo(actual, List.of(expected));
-    }
-
     public static void assertMatchTo(Iterable<MealTo> actual, Iterable<MealTo> expected) {
-        assertThat(actual).usingFieldByFieldElementComparator().isEqualTo(expected);
+        assertThat(actual.equals(expected));
     }
 
     public static ResultMatcher contentJson(Meal... expected) {
