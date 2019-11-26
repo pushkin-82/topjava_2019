@@ -5,9 +5,6 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.util.MealsUtil;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.Month;
 import java.util.List;
 
@@ -45,14 +42,6 @@ public class MealTestData {
                     MealsUtil.createTo(MEAL5, true),
                     MealsUtil.createTo(MEAL2, false),
                     MealsUtil.createTo(MEAL1, false));
-
-    public static final LocalDateTime START_DATE_TIME = LocalDateTime.of(2015, Month.MAY, 31, 9, 11);
-    public static final LocalDateTime END_DATE_TIME = LocalDateTime.of(2015, Month.MAY, 31, 15, 15);
-
-    public static final LocalDate START_DATE = LocalDate.of(2015, Month.MAY, 31);
-    public static final LocalDate END_DATE = LocalDate.of(2015, Month.MAY, 31);
-    public static final LocalTime START_TIME = LocalTime.of(9, 11);
-    public static final LocalTime END_TIME = LocalTime.of(15, 15);
 
     public static Meal getNew() {
         return new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "Созданный ужин", 300);

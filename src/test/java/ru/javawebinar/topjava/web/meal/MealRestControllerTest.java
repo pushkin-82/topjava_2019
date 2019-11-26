@@ -83,9 +83,12 @@ class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getBetween() throws Exception {
-        String getBetweenRestUrl = REST_URL + "filter?startDate="
-                + START_DATE + "&endDate=" + END_DATE + "&startTime=" + START_TIME + "&endTime=" + END_TIME;
-        mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl))
+        String getBetweenRestUrl = REST_URL + "filter";
+        mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl)
+                            .param("startDate", "2015-05-31")
+                            .param("endDate", "2015-05-31")
+                            .param("startTime", "09:11")
+                            .param("endTime", "15:15"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
@@ -94,9 +97,12 @@ class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getBetweenWithEmptyStartTime() throws Exception {
-        String getBetweenRestUrl = REST_URL + "filter?startDate="
-                + START_DATE + "&endDate=" + END_DATE + "&startTime=" + "" + "&endTime=" + END_TIME;
-        mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl))
+        String getBetweenRestUrl = REST_URL + "filter";
+        mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl)
+                            .param("startDate", "2015-05-31")
+                            .param("endDate", "2015-05-31")
+                            .param("startTime", "")
+                            .param("endTime", "15:15"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
@@ -105,9 +111,11 @@ class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getBetweenWithNullStartTime() throws Exception {
-        String getBetweenRestUrl = REST_URL + "filter?startDate="
-                + START_DATE + "&endDate=" + END_DATE + "&endTime=" + END_TIME;
-        mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl))
+        String getBetweenRestUrl = REST_URL + "filter";
+        mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl)
+                            .param("startDate", "2015-05-31")
+                            .param("endDate", "2015-05-31")
+                            .param("endTime", "15:15"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
@@ -116,9 +124,12 @@ class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getBetweenWithEmptyStartDate() throws Exception {
-        String getBetweenRestUrl = REST_URL + "filter?startDate="
-                + "" + "&endDate=" + END_DATE + "&startTime=" + START_TIME + "&endTime=" + END_TIME;
-        mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl))
+        String getBetweenRestUrl = REST_URL + "filter";
+        mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl)
+                            .param("startDate", "")
+                            .param("endDate", "2015-05-31")
+                            .param("startTime", "09:11")
+                            .param("endTime", "15:15"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
@@ -127,8 +138,11 @@ class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getBetweenWithNullStartDate() throws Exception {
-        String getBetweenRestUrl = REST_URL + "filter?&endDate=" + END_DATE + "&startTime=" + START_TIME + "&endTime=" + END_TIME;
-        mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl))
+        String getBetweenRestUrl = REST_URL + "filter";
+        mockMvc.perform(MockMvcRequestBuilders.get(getBetweenRestUrl)
+                            .param("endDate", "2015-05-31")
+                            .param("startTime", "09:11")
+                            .param("endTime", "15:15"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
