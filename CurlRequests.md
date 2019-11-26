@@ -1,4 +1,4 @@
-###For authorized user:
+### For authorized user:
 
 #### Get all meals
 curl http://localhost:8080/topjava/rest/meals
