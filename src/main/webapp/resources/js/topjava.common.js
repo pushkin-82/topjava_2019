@@ -1,4 +1,4 @@
-var context, form;
+let context, form;
 
 function makeEditable(ctx) {
     context = ctx;
