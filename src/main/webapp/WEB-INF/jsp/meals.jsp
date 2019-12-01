@@ -2,8 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
+
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
+
 <body>
 <script type="text/javascript" src="resources/js/topjava.common.js" defer></script>
 <script type="text/javascript" src="resources/js/topjava.meals.js" defer></script>
@@ -40,7 +42,7 @@
             </form>
 
             <div class="text-right">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            <button type="button" class="btn btn-secondary" onclick="resetFilter()">
                 <span class="fa fa-close"></span>
                 <spring:message code="common.cancel"/>
             </button>

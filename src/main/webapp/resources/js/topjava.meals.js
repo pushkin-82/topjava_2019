@@ -29,9 +29,20 @@
                     "desc"
                 ]
             })
-        })
-});
+        });
+    });
+
+function resetFilter() {
+    $('#filtertable').get(0).reset();
+}
 
 function filter() {
-    
+    $.ajax({
+        url: context.ajaxUrl + "filter",
+        type: "GET",
+        data: $("#filtertable").serialize()
+    }).done(function () {
+        updateTable();
+        successNoty("Filtered")
+    })
 }
