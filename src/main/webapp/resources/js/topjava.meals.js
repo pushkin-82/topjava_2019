@@ -41,8 +41,8 @@ function filter() {
         url: context.ajaxUrl + "filter",
         type: "GET",
         data: $("#filtertable").serialize()
-    }).done(function () {
-        updateTable();
+    }).done(function (data) {
+        context.datatableApi.clear().rows.add(data).draw();
         successNoty("Filtered")
     })
 }

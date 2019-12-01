@@ -41,6 +41,11 @@ public class DataJpaUserRepository implements UserRepository {
     }
 
     @Override
+    public boolean updateEnabled(int id, boolean enabled) {
+        return crudRepository.updateEnabled(id, enabled) != 0;
+    }
+
+    @Override
     public User getWithMeals(int id) {
         return crudRepository.getWithMeals(id);
     }

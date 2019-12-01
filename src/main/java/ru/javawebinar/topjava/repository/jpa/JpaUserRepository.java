@@ -71,4 +71,13 @@ public class JpaUserRepository implements UserRepository {
     public List<User> getAll() {
         return em.createNamedQuery(User.ALL_SORTED, User.class).getResultList();
     }
+
+    @Override
+    @Transactional
+    public boolean updateEnabled(int id, boolean enabled) {
+        return em.createNamedQuery(User.UPDATE_ENABLED)
+                .setParameter("id", id)
+                .setParameter("enabled", enabled)
+                .executeUpdate() != 0;
+    }
 }
