@@ -12,6 +12,46 @@
 <div class="jumbotron pt-4">
     <div class="container">
         <h3 class="text-center"><spring:message code="meal.title"/> </h3>
+
+        <div>
+            <form class="table table-striped" id="filtertable">
+                <div class="row">
+                    <div class="offset-1 col-3">
+                        <label for="startDate" class="col-form-label"><spring:message code="meal.startDate"/></label>
+                        <input type="date" class="form-control" id="startDate" name="startDate"
+                               placeholder="<spring:message code="meal.startDate"/>">
+                    </div>
+                    <div class="col-3">
+                        <label for="startDate" class="col-form-label"><spring:message code="meal.endDate"/></label>
+                        <input type="date" class="form-control" id="endDate" name="endDate"
+                               placeholder="<spring:message code="meal.endDate"/>">
+                    </div>
+                    <div class="offset-1 col-2">
+                        <label for="startDate" class="col-form-label"><spring:message code="meal.startTime"/></label>
+                        <input type="time" class="form-control" id="startTime" name="startTime"
+                               placeholder="<spring:message code="meal.startTime"/>">
+                    </div>
+                    <div class="col-2">
+                        <label for="startDate" class="col-form-label"><spring:message code="meal.endTime"/></label>
+                        <input type="time" class="form-control" id="endTime" name="endTime"
+                               placeholder="<spring:message code="meal.endTime"/>">
+                    </div>
+                </div>
+            </form>
+
+            <div class="text-right">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                <span class="fa fa-close"></span>
+                <spring:message code="common.cancel"/>
+            </button>
+            <button class="btn btn-primary" onclick="filter()">
+                <span class="fa fa-filter"></span>
+                <spring:message code="meal.filter"/>
+            </button>
+            </div>
+            <hr><hr>
+        </div>
+
         <button class="btn btn-primary" onclick="add()">
             <span class="fa fa-plus"></span>
             <spring:message code="common.add"/>
