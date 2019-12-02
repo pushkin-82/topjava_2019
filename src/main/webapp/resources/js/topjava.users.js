@@ -40,3 +40,14 @@ $(function () {
         }
     );
 });
+
+function updateEnabled(id) {
+    $.ajax({
+        url: context.ajaxUrl + "enable/" + id,
+        type: "GET",
+        data: $("#enabled").serialize()
+    }).done(function () {
+        // updateTable();
+        successNoty("enabled");
+    })
+}
