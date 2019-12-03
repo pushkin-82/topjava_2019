@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
@@ -71,6 +72,7 @@
             <c:forEach items="${meals}" var="mealTo">
                 <jsp:useBean id="mealTo" type="ru.javawebinar.topjava.to.MealTo"/>
                 <tr data-mealExcess="${mealTo.excess}">
+<%--                    <td><fmt:formatDate value="${mealTo.dateTime}" pattern="yyyy-MM-dd HH:mm"/></td>--%>
                     <td>${fn:formatDateTime(mealTo.dateTime)}</td>
                     <td>${mealTo.description}</td>
                     <td>${mealTo.calories}</td>

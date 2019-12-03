@@ -50,6 +50,13 @@ public class AdminRestController extends AbstractUserController {
         super.update(user, id);
     }
 
+    @Override
+    @PutMapping(value = "/{id}/enabled", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void updateEnabled(@RequestParam boolean enabled, @PathVariable int id) {
+        super.updateEnabled(enabled, id);
+    }
+
     @GetMapping("/by")
     public User getByMail(@RequestParam String email) {
         return super.getByMail(email);

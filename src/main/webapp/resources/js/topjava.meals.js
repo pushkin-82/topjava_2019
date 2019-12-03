@@ -34,6 +34,14 @@
 
 function resetFilter() {
     $('#filtertable').get(0).reset();
+    $.ajax({
+        url: context.ajaxUrl,
+        type: "GET",
+        data: $("#datatable").serialize()
+    }).done(function (data) {
+        updateData(data);
+        successNoty("Cancelled filter");
+    })
 }
 
 function filter() {
@@ -42,7 +50,7 @@ function filter() {
         type: "GET",
         data: $("#filtertable").serialize()
     }).done(function (data) {
-        context.datatableApi.clear().rows.add(data).draw();
+        updateData(data);
         successNoty("Filtered")
     })
 }
