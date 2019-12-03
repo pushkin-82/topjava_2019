@@ -54,3 +54,13 @@ function filter() {
         successNoty("Filtered")
     })
 }
+
+function saveMeal() {
+    save();
+    filter();
+}
+
+function deleteMealRow(id) {
+    deleteRow(id);
+    filter();
+}
