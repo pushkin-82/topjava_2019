@@ -39,7 +39,7 @@ public class AdminUIController extends AbstractUserController {
     }
 
     @GetMapping(value = "/enable/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void updateEnabled( @PathVariable int id, @RequestParam Boolean enabled) {
+    public void updateEnabled( @PathVariable int id, @RequestParam boolean enabled) {
         super.updateEnabled(enabled, id);
     }
 }

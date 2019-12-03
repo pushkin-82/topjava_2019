@@ -32,6 +32,12 @@ public class UserTestData {
         return updated;
     }
 
+    public static User getDisabled() {
+        User updated = new User(USER);
+        updated.setEnabled(false);
+        return updated;
+    }
+
     public static void assertMatch(User actual, User expected) {
         assertThat(actual).isEqualToIgnoringGivenFields(expected, "registered", "meals");
     }

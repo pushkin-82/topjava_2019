@@ -82,15 +82,10 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void enableUser() throws Exception {
-        service.switchEnabled(USER_ID, true);
-        assertTrue(service.get(USER_ID).isEnabled());
-    }
-
-    @Test
     void disableUser() throws Exception {
+        User disabled = getDisabled();
         service.switchEnabled(USER_ID, false);
-        assertFalse(service.get(USER_ID).isEnabled());
+        assertMatch(service.get(USER_ID),disabled);
     }
 
     @Test
