@@ -39,7 +39,7 @@ public class AdminUIController extends AbstractUserController {
     }
 
     @Override
-    @PutMapping(value = "/{id}/enabled", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{id}/enabled")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void updateEnabled(@RequestParam boolean enabled, @PathVariable int id) {
         super.updateEnabled(enabled, id);

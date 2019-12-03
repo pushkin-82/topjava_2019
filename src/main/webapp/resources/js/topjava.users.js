@@ -41,13 +41,14 @@ $(function () {
     );
 });
 
-function updateEnabled(id) {
+function updateEnabled(enabled, id) {
+    let isEnabled = enabled.is(":checked");
     $.ajax({
-        url: context.ajaxUrl + "enable/" + id,
-        type: "GET",
-        data: $("#enabled").serialize()
+        url: context.ajaxUrl + id + "/enabled?",
+        type: "POST",
+        data: "enabled=" + isEnabled
     }).done(function () {
-        // updateTable();
-        successNoty("enabled");
+        enabled.closest("tr").attr("data-userEnabled", isEnabled);
+        isEnabled ? successNoty("Enabled user " + id) : successNoty("Disabled user " + id);
     })
 }
