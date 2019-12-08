@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.to;
 
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,10 +14,16 @@ import java.util.Objects;
 
 public class MealTo extends BaseTo implements Serializable {
 
+    @NotNull
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private final LocalDateTime dateTime;
 
+    @NotBlank
+    @Size(min = 2, max = 120, message = "length must be between 2 and 120 characters")
     private final String description;
 
+    @NotNull
+    @Range(min = 10, max = 5000, message = "value must be between 10 and 5000 calories")
     private final int calories;
 
     private final boolean excess;
@@ -30,20 +37,14 @@ public class MealTo extends BaseTo implements Serializable {
         this.excess = excess;
     }
 
-    @NotNull
-//    @PastOrPresent(message = "dateTime must be past or present, not future")
     public LocalDateTime getDateTime() {
         return dateTime;
     }
 
-    @NotBlank
-    @Size(min = 2, max = 120, message = "length must be between 2 and 120 characters")
     public String getDescription() {
         return description;
     }
 
-    @NotNull
-    @Range(min = 10, max = 5000, message = "value must be between 10 and 5000 calories")
     public int getCalories() {
         return calories;
     }

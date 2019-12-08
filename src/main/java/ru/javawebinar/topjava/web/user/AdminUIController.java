@@ -11,7 +11,6 @@ import ru.javawebinar.topjava.util.ValidationUtil;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.StringJoiner;
 
 @RestController
 @RequestMapping("/ajax/admin/users")

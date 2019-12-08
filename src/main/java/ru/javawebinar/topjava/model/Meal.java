@@ -3,11 +3,10 @@ package ru.javawebinar.topjava.model;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -29,21 +28,24 @@ public class Meal extends AbstractBaseEntity {
 
     @Column(name = "date_time", nullable = false)
     @NotNull
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @PastOrPresent(message = "date must be past or present")
     private LocalDateTime dateTime;
 
     @Column(name = "description", nullable = false)
     @NotBlank
-    @Size(min = 2, max = 120)
+    @Size(min = 2, max = 120, message = "length must be between 2 and 120 characters")
     private String description;
 
     @Column(name = "calories", nullable = false)
-    @Range(min = 10, max = 5000)
+    @Range(min = 10, max = 5000, message = "value must be between 10 and 5000 calories")
+    @Positive
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
+//    @NotNull
     private User user;
 
     public Meal() {

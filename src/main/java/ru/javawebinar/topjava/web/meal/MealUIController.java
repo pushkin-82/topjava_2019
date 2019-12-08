@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.web.meal;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +11,18 @@ import ru.javawebinar.topjava.util.ValidationUtil;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.StringJoiner;
 
 @RestController
 @RequestMapping("/ajax/profile/meals")
 public class MealUIController extends AbstractMealController {
+
+    @Override
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Meal get(@PathVariable("id") int id) {
+        return super.get(id);
+    }
 
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -35,15 +38,15 @@ public class MealUIController extends AbstractMealController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createOrUpdate(@Valid MealTo mealTo, BindingResult result) {
+    public ResponseEntity<String> createOrUpdate(@Valid Meal meal, BindingResult result) {
         if (result.hasErrors()) {
             return ValidationUtil.errorStringBuilder(result);
         }
 
-        if (mealTo.isNew()) {
-            super.create(mealTo);
+        if (meal.isNew()) {
+            super.create(meal);
         } else {
-            super.update(mealTo, mealTo.id());
+            super.update(meal, meal.id());
         }
 
         return ResponseEntity.ok().build();
