@@ -31,19 +31,19 @@ public class MealTo extends BaseTo implements Serializable {
     }
 
     @NotNull
-    @PastOrPresent(message = "dateTime must be past or present, not future")
+//    @PastOrPresent(message = "dateTime must be past or present, not future")
     public LocalDateTime getDateTime() {
         return dateTime;
     }
 
     @NotBlank
-    @Size(min = 3, max = 50, message = "length must be between 3 and 50 characters")
+    @Size(min = 2, max = 120, message = "length must be between 2 and 120 characters")
     public String getDescription() {
         return description;
     }
 
     @NotNull
-    @Range(min = 0, max = 5000, message = "value must be between 0 and 5000 calories")
+    @Range(min = 10, max = 5000, message = "value must be between 10 and 5000 calories")
     public int getCalories() {
         return calories;
     }

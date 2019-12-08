@@ -1,4 +1,4 @@
-var userAjaxUrl = "ajax/admin/users/";
+let userAjaxUrl = "ajax/admin/users/";
 
 function enable(chkbox, id) {
     var enabled = chkbox.is(":checked");
