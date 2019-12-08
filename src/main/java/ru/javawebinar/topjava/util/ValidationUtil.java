@@ -84,6 +84,9 @@ public class ValidationUtil {
                     String msg = fe.getDefaultMessage();
                     if (msg != null) {
                         if (!msg.startsWith(fe.getField())) {
+                            if (msg.contains("NumberFormatException")) {
+                                msg = "must be a number";
+                            }
                             msg = fe.getField() + ' ' + msg;
                         }
                         joiner.add(msg);
