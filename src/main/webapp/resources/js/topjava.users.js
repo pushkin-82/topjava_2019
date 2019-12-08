@@ -49,6 +49,8 @@ function updateEnabled(enabled, id) {
         data: "enabled=" + isEnabled
     }).done(function () {
         enabled.closest("tr").attr("data-userEnabled", isEnabled);
-        isEnabled ? successNoty("Enabled user " + id) : successNoty("Disabled user " + id);
+        successNoty(isEnabled ? "Enabled user " + id : "Disabled user " + id);
+    }).fail(function () {
+        $(enabled).prop("checked", !isEnabled);
     })
 }
