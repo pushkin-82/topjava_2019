@@ -29,7 +29,6 @@ public class Meal extends AbstractBaseEntity {
     @Column(name = "date_time", nullable = false)
     @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @PastOrPresent(message = "date must be past or present")
     private LocalDateTime dateTime;
 
     @Column(name = "description", nullable = false)
@@ -39,13 +38,12 @@ public class Meal extends AbstractBaseEntity {
 
     @Column(name = "calories", nullable = false)
     @Range(min = 10, max = 5000, message = "value must be between 10 and 5000 calories")
-    @Positive
-    private int calories;
+    @NotNull(message = "must not be empty")
+    private Integer calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-//    @NotNull
     private User user;
 
     public Meal() {

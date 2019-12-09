@@ -3,7 +3,7 @@ let mealAjaxUrl = "ajax/profile/meals/";
 function updateFilteredTable() {
     $.ajax({
         type: "GET",
-        url: "ajax/profile/meals/filter",
+        url: mealAjaxUrl + "filter",
         data: $("#filter").serialize()
     }).done(updateTableByData);
 }
@@ -61,9 +61,10 @@ $(function () {
             }
         }),
         updateTable: function () {
-            $.get(mealAjaxUrl, updateTableByData);
+            $.get(mealAjaxUrl, updateFilteredTable());
         }
     });
+
 
     $("#startDate").datetimepicker({
         timepicker: false,
@@ -85,3 +86,15 @@ $(function () {
         format: 'Y-m-d H:i'
     });
 });
+
+// $.ajaxSetup({
+//     converters: {
+//         "text json": function(string) {
+//             let result = JSON.parse(string);
+//             $(result).each(function () {
+//                 this.dateTime = this.dateTime.substring(0, 16).replace("T", " ")
+//             });
+//             return result;
+//         }
+//     }
+// });

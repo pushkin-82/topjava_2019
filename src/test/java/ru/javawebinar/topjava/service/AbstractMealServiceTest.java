@@ -44,7 +44,6 @@ public abstract class AbstractMealServiceTest extends AbstractServiceTest {
     @Test
     void create() throws Exception {
         Meal newMeal = MealTestData.getNew();
-        newMeal.setUser(USER);
         Meal created = service.create(newMeal, USER_ID);
         Integer newId = created.getId();
         newMeal.setId(newId);
@@ -73,16 +72,13 @@ public abstract class AbstractMealServiceTest extends AbstractServiceTest {
     @Test
     void update() throws Exception {
         Meal updated = MealTestData.getUpdated();
-        updated.setUser(USER);
         service.update(updated, USER_ID);
         assertMatch(service.get(MEAL1_ID, USER_ID), updated);
     }
 
     @Test
     void updateNotFound() throws Exception {
-        Meal meal = new Meal(MEAL1);
-        meal.setUser(USER);
-        NotFoundException e = assertThrows(NotFoundException.class, () -> service.update(meal, ADMIN_ID));
+        NotFoundException e = assertThrows(NotFoundException.class, () -> service.update(MEAL1, ADMIN_ID));
         assertEquals(e.getMessage(), "Not found entity with id=" + MEAL1_ID);
     }
 

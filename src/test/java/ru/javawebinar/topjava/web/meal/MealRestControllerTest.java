@@ -32,9 +32,6 @@ class MealRestControllerTest extends AbstractControllerTest {
     @Autowired
     private MealService mealService;
 
-    @Autowired
-    private UserService userService;
-
     @Test
     void get() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + MEAL1_ID)
