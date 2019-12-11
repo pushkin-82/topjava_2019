@@ -27,9 +27,6 @@ $(function () {
                 {
                     "data": "dateTime",
                     "render": function (date, type, row) {
-                        if (type === "display") {
-                            return date.substring(0, 16).replace("T", " ");
-                        }
                         return date;
                     }
                 },
@@ -87,14 +84,14 @@ $(function () {
     });
 });
 
-// $.ajaxSetup({
-//     converters: {
-//         "text json": function(string) {
-//             let result = JSON.parse(string);
-//             $(result).each(function () {
-//                 this.dateTime = this.dateTime.substring(0, 16).replace("T", " ")
-//             });
-//             return result;
-//         }
-//     }
-// });
+$.ajaxSetup({
+    converters: {
+        "text json": function(string) {
+            let result = JSON.parse(string);
+            $(result).each(function () {
+                this.dateTime = this.dateTime.substring(0, 16).replace("T", " ");
+            });
+            return result;
+        }
+    }
+});

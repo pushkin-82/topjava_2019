@@ -47,7 +47,7 @@ function save() {
     $.ajax({
         type: "POST",
         url: context.ajaxUrl,
-        data: form.serialize()
+        data: formConvertDatetimeField(form)
     }).done(function () {
         $("#editRow").modal("hide");
         context.updateTable();
@@ -93,4 +93,15 @@ function renderDeleteBtn(data, type, row) {
     if (type === "display") {
         return "<a onclick='deleteRow(" + row.id + ");'><span class='fa fa-remove'></span></a>";
     }
+}
+
+function formConvertDatetimeField(form) {
+    let formArray = $(form).serializeArray();
+    $.each(formArray, function (index, field) {
+        if (field.name === "dateTime") {
+            field.value = (field.value).replace(' ', 'T');
+        }
+    });
+
+    return $.param(formArray);
 }
