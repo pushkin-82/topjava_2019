@@ -3,6 +3,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="topjava" tagdir="/WEB-INF/tags" %>
+
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
@@ -70,6 +72,7 @@
 <div class="modal fade" tabindex="-1" id="editRow">
     <div class="modal-dialog">
         <div class="modal-content">
+            <%--@elvariable id="meal" type="ru.javawebinar.topjava.model.Meal"--%>
             <div class="modal-header">
                 <h4 class="modal-title" id="modalTitle"></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -77,6 +80,9 @@
             <div class="modal-body">
                 <form:form id="detailsForm">
                     <input type="hidden" id="id" name="id">
+<%--&lt;%&ndash;                    <topjava:inputField labelCode="meal.dateTime" name="dateTime"/>&ndash;%&gt;--%>
+<%--                    <topjava:inputField labelCode="meal.description" name="description"/>--%>
+<%--                    <topjava:inputField labelCode="meal.calories" name="calories" inputType="number"/>--%>
 
                     <div class="form-group">
                         <label for="dateTime" class="col-form-label"><spring:message code="meal.dateTime"/></label>
