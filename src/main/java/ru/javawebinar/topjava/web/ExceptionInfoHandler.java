@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.transaction.TransactionSystemException;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -51,8 +52,8 @@ public class ExceptionInfoHandler {
     }
 
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 422
-    @ExceptionHandler({ConstraintViolationException.class, TransactionSystemException.class})
-    public ErrorInfo constraintError(HttpServletRequest req, Exception e) {
+    @ExceptionHandler(BindException.class)
+    public ErrorInfo constraintError(HttpServletRequest req, BindException e) {
         return logAndGetErrorInfo(req, e, true, VALIDATION_ERROR);
     }
 

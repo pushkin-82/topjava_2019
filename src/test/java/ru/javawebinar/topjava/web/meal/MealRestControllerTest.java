@@ -82,7 +82,16 @@ class MealRestControllerTest extends AbstractControllerTest {
         Meal updated = MealTestData.getUpdated();
         updated.setDescription("");
         perform(doPut(MEAL1_ID).jsonBody(updated).basicAuth(USER))
+                .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void updateWithDuplicatedDateTime() throws Exception {
+        Meal updated = MealTestData.getUpdated();
+        updated.setDateTime(MEAL2.getDateTime());
+        perform(doPut(MEAL1_ID).jsonBody(updated).basicAuth(USER)).andDo(print());
+
     }
 
     @Test

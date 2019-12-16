@@ -36,14 +36,12 @@ public class AdminUIController extends AbstractUserController {
     }
 
     @PostMapping
-    public void createOrUpdate(@ModelAttribute("userTo") @Valid UserTo userTo,
-                               BindingResult result, SessionStatus status) {
+    public void createOrUpdate(@ModelAttribute("userTo") @Valid UserTo userTo) {
         if (userTo.isNew()) {
             super.create(userTo);
         } else {
             super.update(userTo, userTo.id());
         }
-        status.setComplete();
     }
 
     @Override

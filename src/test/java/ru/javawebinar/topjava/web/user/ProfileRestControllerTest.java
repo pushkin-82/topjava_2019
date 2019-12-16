@@ -70,6 +70,14 @@ class ProfileRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void registerDuplicatedEmail() throws Exception {
+        UserTo newTo = new UserTo(null, "duplicated", "user@yandex.ru", "newPassword", 1500);
+        perform(doPost("/register").jsonBody(newTo))
+                .andDo(print());
+//                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
     void update() throws Exception {
         UserTo updatedTo = new UserTo(null, "newName", "newemail@ya.ru", "newPassword", 1500);
         perform(doPut().jsonBody(updatedTo).basicAuth(USER))
