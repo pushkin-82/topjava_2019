@@ -78,7 +78,11 @@ public class ExceptionInfoHandler {
         }
 
         if (e instanceof DataIntegrityViolationException) {
-            message = "User with this email already exists";
+            if (req.getRequestURL().toString().contains("meals")) {
+                message = "Meal with this dateTime already exists";
+            } else {
+                message = "User with this email already exists";
+            }
         }
         return new ErrorInfo(req.getRequestURL(), errorType, message);
     }
