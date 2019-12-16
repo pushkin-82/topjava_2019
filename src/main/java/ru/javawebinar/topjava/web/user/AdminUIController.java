@@ -2,16 +2,14 @@ package ru.javawebinar.topjava.web.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
-import ru.javawebinar.topjava.util.ValidationUtil;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -38,7 +36,8 @@ public class AdminUIController extends AbstractUserController {
     }
 
     @PostMapping
-    public void createOrUpdate(@Valid UserTo userTo, BindingResult result, SessionStatus status) {
+    public void createOrUpdate(@ModelAttribute("userTo") @Valid UserTo userTo,
+                               BindingResult result, SessionStatus status) {
         if (userTo.isNew()) {
             super.create(userTo);
         } else {

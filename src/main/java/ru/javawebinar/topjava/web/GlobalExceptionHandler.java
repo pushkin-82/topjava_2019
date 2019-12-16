@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,11 +20,20 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
         log.error("Exception at request " + req.getRequestURL(), e);
+        String errorMessage;
         Throwable rootCause = ValidationUtil.getRootCause(e);
+        HttpStatus httpStatus;
 
-        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        if (e instanceof DataIntegrityViolationException) {
+            httpStatus = HttpStatus.CONFLICT;
+            errorMessage = "User with this email already exists";
+        } else {
+             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+             errorMessage = rootCause.toString();
+        }
         ModelAndView mav = new ModelAndView("exception",
-                Map.of("exception", rootCause, "message", rootCause.toString(), "status", httpStatus));
+                    Map.of("exception", rootCause, "message", errorMessage, "status", httpStatus));
+
         mav.setStatus(httpStatus);
 
         // Interceptor is not invoked, put userTo
@@ -33,4 +43,5 @@ public class GlobalExceptionHandler {
         }
         return mav;
     }
+
 }
